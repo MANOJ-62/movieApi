@@ -23,4 +23,6 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleFileAlreadyExistingException(MovieNotFoundException ex){
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND,ex.getMessage());
     }
+
+
 }
