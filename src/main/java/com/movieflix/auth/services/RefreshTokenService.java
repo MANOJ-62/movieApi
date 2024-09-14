@@ -22,7 +22,7 @@ public class RefreshTokenService {
     }
 
     public RefreshToken CreateRefreshToke(String username){
-        User user = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not Found with user id : " + username));
+        User user = userRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not Found with user id : " + username));
         RefreshToken refreshToken= user.getRefreshToken();
 
         if (refreshToken == null){
@@ -38,7 +38,7 @@ public class RefreshTokenService {
     }
 
     public RefreshToken VerifyRefreshToken(String refreshToken){
-        RefreshToken refToken = refreshTokenRepository.finByRefreshToken(refreshToken).orElseThrow(()-> new RuntimeException("Refresh token not found"));
+        RefreshToken refToken = refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(()-> new RuntimeException("Refresh token not found"));
         if (refToken.getExpirationTime().compareTo(Instant.now()) < 0){
             refreshTokenRepository.delete(refToken);
             throw new RuntimeException("Refresh Token Expired ");
